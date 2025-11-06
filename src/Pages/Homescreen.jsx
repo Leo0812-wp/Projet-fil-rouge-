@@ -39,8 +39,8 @@ const Homescreen = () => {
           </div>
         </div>
 
-        {/* Overlay sombre pour la lisibilité */}
-        <div className="absolute inset-0 bg-black bg-opacity-30"></div>
+        {/* Overlay pour la lisibilité */}
+        <div className="absolute inset-0 bg-[#FFE6A7]/10"></div>
 
         {/* Contenu centré */}
         <div className="relative z-10 h-full flex items-center justify-center">
@@ -70,7 +70,7 @@ const Homescreen = () => {
       </section>
 
       {/* Section de contenu exemple */}
-      <section className="pt-20 pb-8" style={{ backgroundColor: '#FAFAFA' }}>
+      <section className="pt-20 pb-8 bg-[#FFE6A7]/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-bold text-center mb-12" style={{ color: '#432818' }}>
             Bienvenue au Bon Café
@@ -83,7 +83,7 @@ const Homescreen = () => {
       </section>
 
       {/* Section avec sélecteurs */}
-      <section className="pt-8 pb-20" style={{ backgroundColor: '#FAFAFA' }}>
+      <section className="pt-8 pb-20 bg-[#FFE6A7]/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <TabSelector />
         </div>

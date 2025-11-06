@@ -1,10 +1,35 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useCart } from '../Context/CartContext';
+import { searchProducts } from '../data/products';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [showSearchResults, setShowSearchResults] = useState(false);
+  const navigate = useNavigate();
+  const { getTotalItems } = useCart();
+
+  const handleSearchChange = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    if (query.length > 0) {
+      const results = searchProducts(query);
+      setSearchResults(results.slice(0, 5)); // Limiter à 5 résultats
+      setShowSearchResults(true);
+    } else {
+      setSearchResults([]);
+      setShowSearchResults(false);
+    }
+  };
+
+  const handleProductClick = (productId) => {
+    setSearchQuery('');
+    setShowSearchResults(false);
+    navigate(`/produit/${productId}`);
+  };
 
   const cafes = [
     { id: 1, name: 'Espresso', image: '/cafe-espresso.avif' },
@@ -21,17 +46,19 @@ const Header = () => {
         {/* Desktop Header */}
         <div className="hidden md:flex items-center justify-between h-20">
           {/* Logo à gauche */}
-          <div className="flex items-center">
+          <Link to="/" className="flex items-center">
             <img src="/image.png" alt="Le Bon Café" className="w-16 h-16 object-contain" />
-          </div>
+          </Link>
 
           {/* Barre de recherche */}
           <div className="relative flex-1 max-w-md mx-8">
             <input
               type="text"
-              placeholder="Rechercher..."
+              placeholder="Rechercher un produit..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={handleSearchChange}
+              onFocus={() => searchQuery.length > 0 && setShowSearchResults(true)}
+              onBlur={() => setTimeout(() => setShowSearchResults(false), 200)}
               className="w-full pl-10 pr-4 py-2 bg-white border border-stone-300 rounded-full text-stone-800 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-stone-400 focus:border-transparent"
             />
             <svg
@@ -42,6 +69,34 @@ const Header = () => {
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
+            
+            {/* Résultats de recherche */}
+            {showSearchResults && searchResults.length > 0 && (
+              <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-xl border border-stone-300 z-50 max-h-96 overflow-y-auto">
+                {searchResults.map((product) => (
+                  <div
+                    key={product.id}
+                    onClick={() => handleProductClick(product.id)}
+                    className="p-4 hover:bg-stone-50 cursor-pointer border-b border-stone-200 last:border-b-0"
+                  >
+                    <div className="flex items-center space-x-3">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-12 h-12 object-cover rounded"
+                        onError={(e) => {
+                          e.target.src = '/cafe-espresso.avif';
+                        }}
+                      />
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-stone-800">{product.name}</h4>
+                        <p className="text-sm text-stone-600">{product.price.toFixed(2)} €</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Menu navigation */}
@@ -119,16 +174,26 @@ const Header = () => {
             <Link to="/reservation" className="text-stone-800 hover:text-stone-600 transition-colors">
               Réservation
             </Link>
+            <Link to="/panier" className="relative text-stone-800 hover:text-stone-600 transition-colors">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+              {getTotalItems() > 0 && (
+                <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                  {getTotalItems()}
+                </span>
+              )}
+            </Link>
           </nav>
         </div>
 
         {/* Mobile Header */}
         <div className="md:hidden flex items-center justify-between h-16">
           {/* Logo à gauche */}
-          <div className="flex items-center">
+          <Link to="/" className="flex items-center">
             <img src="/image.png" alt="Le Bon Café" className="w-12 h-12 object-contain" />
             <span className="ml-2 text-lg font-bold text-stone-800">Le Bon Café</span>
-          </div>
+          </Link>
 
           {/* Menu burger */}
           <button
@@ -149,8 +214,8 @@ const Header = () => {
         {isMenuOpen && (
           <div className="md:hidden pb-4 border-t border-stone-300 mt-2">
             <nav className="flex flex-col space-y-4 pt-4">
-              <a href="#" className="text-stone-800 hover:text-stone-600 px-4 py-2">Accueil</a>
-              <a href="#" className="text-stone-800 hover:text-stone-600 px-4 py-2">Histoire</a>
+              <Link to="/" className="text-stone-800 hover:text-stone-600 px-4 py-2" onClick={() => setIsMenuOpen(false)}>Accueil</Link>
+              <Link to="/histoire" className="text-stone-800 hover:text-stone-600 px-4 py-2" onClick={() => setIsMenuOpen(false)}>Histoire</Link>
               <div>
                 <button
                   onClick={() => setIsMegaMenuOpen(!isMegaMenuOpen)}
@@ -192,9 +257,9 @@ const Header = () => {
               <div className="px-4 relative">
                 <input
                   type="text"
-                  placeholder="Rechercher..."
+                  placeholder="Rechercher un produit..."
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={handleSearchChange}
                   className="w-full pl-10 pr-4 py-2 bg-white border border-stone-300 rounded-full text-stone-800 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-stone-400"
                 />
                 <svg
@@ -205,9 +270,49 @@ const Header = () => {
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
+                {showSearchResults && searchResults.length > 0 && (
+                  <div className="absolute top-full left-4 right-4 mt-2 bg-white rounded-lg shadow-xl border border-stone-300 z-50 max-h-64 overflow-y-auto">
+                    {searchResults.map((product) => (
+                      <div
+                        key={product.id}
+                        onClick={() => {
+                          handleProductClick(product.id);
+                          setIsMenuOpen(false);
+                        }}
+                        className="p-3 hover:bg-stone-50 cursor-pointer border-b border-stone-200 last:border-b-0"
+                      >
+                        <div className="flex items-center space-x-3">
+                          <img
+                            src={product.image}
+                            alt={product.name}
+                            className="w-10 h-10 object-cover rounded"
+                            onError={(e) => {
+                              e.target.src = '/cafe-espresso.avif';
+                            }}
+                          />
+                          <div className="flex-1">
+                            <h4 className="font-semibold text-sm text-stone-800">{product.name}</h4>
+                            <p className="text-xs text-stone-600">{product.price.toFixed(2)} €</p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
               <Link to="/contact" className="text-stone-800 hover:text-stone-600 px-4 py-2" onClick={() => setIsMenuOpen(false)}>Contact</Link>
               <Link to="/reservation" className="text-stone-800 hover:text-stone-600 px-4 py-2" onClick={() => setIsMenuOpen(false)}>Réservation</Link>
+              <Link to="/panier" className="relative text-stone-800 hover:text-stone-600 px-4 py-2 flex items-center" onClick={() => setIsMenuOpen(false)}>
+                <svg className="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                Panier
+                {getTotalItems() > 0 && (
+                  <span className="ml-2 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                    {getTotalItems()}
+                  </span>
+                )}
+              </Link>
             </nav>
           </div>
         )}
