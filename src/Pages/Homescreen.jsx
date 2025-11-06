@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import TabSelector from '../Components/TabSelector';
 
 const Homescreen = () => {
   const [scrollY, setScrollY] = useState(0);
@@ -21,15 +22,15 @@ const Homescreen = () => {
           className="absolute inset-0 bg-stone-300"
           style={{
             transform: `translateY(${scrollY * 0.5}px)`,
-            backgroundImage: 'url(/placeholder-cafe.jpg)',
+            backgroundImage: 'url(/leboncafe_16_9.png)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
           }}
         >
           {/* Placeholder si l'image n'existe pas */}
-          <div className="absolute inset-0 flex items-center justify-center bg-stone-400 bg-opacity-50">
-            <div className="text-center text-stone-600">
+          <div className="absolute inset-0 flex items-center justify-center bg-stone-400 bg-opacity-30">
+            <div className="text-center text-stone-600 opacity-0">
               <svg className="w-24 h-24 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
@@ -55,7 +56,7 @@ const Homescreen = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
-              <p className="text-lg md:text-xl">123 Rue du Café, 75001 Paris</p>
+              <p className="text-lg md:text-xl">2 rue des Prés, 44000 Nantes</p>
             </div>
           </div>
         </div>
@@ -69,7 +70,7 @@ const Homescreen = () => {
       </section>
 
       {/* Section de contenu exemple */}
-      <section className="py-20" style={{ backgroundColor: '#FAFAFA' }}>
+      <section className="pt-20 pb-8" style={{ backgroundColor: '#FAFAFA' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-bold text-center mb-12" style={{ color: '#432818' }}>
             Bienvenue au Bon Café
@@ -78,6 +79,13 @@ const Homescreen = () => {
             Un lieu où chaque tasse raconte une histoire, où chaque grain est sélectionné avec soin 
             pour vous offrir une expérience unique. Venez découvrir notre passion pour le café.
           </p>
+        </div>
+      </section>
+
+      {/* Section avec sélecteurs */}
+      <section className="pt-8 pb-20" style={{ backgroundColor: '#FAFAFA' }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <TabSelector />
         </div>
       </section>
     </div>

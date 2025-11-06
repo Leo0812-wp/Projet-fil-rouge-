@@ -7,12 +7,12 @@ const Header = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const cafes = [
-    { id: 1, name: 'Espresso', image: '/cafe-espresso.jpg' },
-    { id: 2, name: 'Cappuccino', image: '/cafe-cappuccino.jpg' },
-    { id: 3, name: 'Latte', image: '/cafe-latte.jpg' },
-    { id: 4, name: 'Americano', image: '/cafe-americano.jpg' },
-    { id: 5, name: 'Macchiato', image: '/cafe-macchiato.jpg' },
-    { id: 6, name: 'Mocha', image: '/cafe-mocha.jpg' },
+    { id: 1, name: 'Espresso', image: '/cafe-espresso.avif' },
+    { id: 2, name: 'Cappuccino', image: '/cafe-cappucino.avif' },
+    { id: 3, name: 'Latte', image: '/cafe-espresso.avif' }, // Utilise espresso en attendant
+    { id: 4, name: 'Americano', image: '/cafe-americano.avif' },
+    { id: 5, name: 'Macchiato', image: '/cafe-macciato.avif' },
+    { id: 6, name: 'Mocha', image: '/cafe-mocha.avif' },
   ];
 
   return (
