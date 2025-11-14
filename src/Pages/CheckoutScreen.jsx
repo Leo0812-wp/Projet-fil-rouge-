@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../Context/CartContext';
-import OrderConfirmationModal from '../Components/OrderConfirmationModal';
+import StripePaymentForm from '../Components/StripePaymentForm';
 
 const CheckoutScreen = () => {
   const { cartItems, getTotalPrice, getTotalHT, getTotalTVA, clearCart } = useCart();
   const navigate = useNavigate();
   const [paymentMethod, setPaymentMethod] = useState(null); // 'apple', 'stripe'
-  const [showConfirmation, setShowConfirmation] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   
   // Informations client (sur place / à emporter)
@@ -17,74 +16,28 @@ const CheckoutScreen = () => {
     email: '',
   });
 
-  // Informations de carte (pour Stripe)
-  const [cardInfo, setCardInfo] = useState({
-    cardNumber: '',
-    expiryDate: '',
-    cvv: '',
-    cardholderName: '',
-  });
-
   const handleInputChange = (e, type) => {
     if (type === 'customer') {
       setCustomerInfo({ ...customerInfo, [e.target.name]: e.target.value });
-    } else if (type === 'card') {
-      setCardInfo({ ...cardInfo, [e.target.name]: e.target.value });
     }
-  };
-
-  const formatCardNumber = (value) => {
-    const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
-    const matches = v.match(/\d{4,16}/g);
-    const match = (matches && matches[0]) || '';
-    const parts = [];
-    for (let i = 0, len = match.length; i < len; i += 4) {
-      parts.push(match.substring(i, i + 4));
-    }
-    if (parts.length) {
-      return parts.join(' ');
-    } else {
-      return v;
-    }
-  };
-
-  const formatExpiryDate = (value) => {
-    const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
-    if (v.length >= 2) {
-      return v.substring(0, 2) + '/' + v.substring(2, 4);
-    }
-    return v;
-  };
-
-  const handleCardNumberChange = (e) => {
-    const formatted = formatCardNumber(e.target.value);
-    setCardInfo({ ...cardInfo, cardNumber: formatted });
-  };
-
-  const handleExpiryChange = (e) => {
-    const formatted = formatExpiryDate(e.target.value);
-    setCardInfo({ ...cardInfo, expiryDate: formatted });
   };
 
   const validateForm = () => {
     if (!customerInfo.firstName || !customerInfo.lastName || !customerInfo.email) {
       return false;
     }
-    if (paymentMethod === 'stripe') {
-      if (!cardInfo.cardNumber || !cardInfo.expiryDate || !cardInfo.cvv || !cardInfo.cardholderName) {
-        return false;
-      }
-    }
     return true;
   };
 
   const simulatePayment = async () => {
     setIsProcessing(true);
-    // Simulation d'un délai de traitement
+    // Simulation d'un délai de traitement du paiement
     await new Promise(resolve => setTimeout(resolve, 2000));
     setIsProcessing(false);
-    setShowConfirmation(true);
+    
+    // Vider le panier et rediriger vers la page de confirmation
     clearCart();
+    navigate('/confirmation', { state: { total: getTotalPrice() } });
   };
 
   const handlePayment = () => {
@@ -92,17 +45,21 @@ const CheckoutScreen = () => {
       alert('Veuillez remplir tous les champs obligatoires');
       return;
     }
+    if (paymentMethod === 'stripe') {
+      // Le formulaire Stripe gère sa propre soumission
+      return;
+    }
     simulatePayment();
   };
 
-  const handleConfirmOrder = () => {
-    setShowConfirmation(false);
-    navigate('/');
+  const handleStripePaymentSuccess = () => {
+    simulatePayment();
   };
+
 
   if (cartItems.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#FAFAFA]">
+      <div className="min-h-screen flex items-center justify-center bg-[#FFE6A7]/10">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4" style={{ color: '#432818' }}>
             Votre panier est vide
@@ -120,7 +77,7 @@ const CheckoutScreen = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] py-12">
+    <div className="min-h-screen bg-[#FFE6A7]/10 py-12">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="text-4xl font-bold mb-8 text-center" style={{ color: '#432818' }}>
           Validation de commande
@@ -209,117 +166,26 @@ const CheckoutScreen = () => {
                   onClick={() => setPaymentMethod('stripe')}
                   className={`w-full py-4 rounded-lg border-2 transition-all flex items-center justify-center space-x-3 ${
                     paymentMethod === 'stripe'
-                      ? 'border-blue-600 bg-blue-600 text-white'
+                      ? 'border-stone-400 bg-white text-black'
                       : 'border-stone-300 bg-white text-black hover:border-stone-400'
                   }`}
                 >
                   <div className="flex items-center space-x-2">
-                    {/* Logo Visa */}
-                    <div className="w-12 h-8 bg-white rounded flex items-center justify-center border border-gray-200">
-                      <svg className="w-10 h-6" viewBox="0 0 60 20" fill="none">
-                        <rect width="60" height="20" rx="2" fill="#1434CB"/>
-                        <path d="M26.5 7h-3l-2 6h3l.7-1.8h2.6l.7 1.8h3l-2.3-6zm-2 3l.7-1.8.7 1.8h-1.4z" fill="white"/>
-                        <path d="M20 7h-2.5l-2.5 6h3l.4-1h2.4l.4 1h3l-2.5-6zm-3 3.5l.7-1.8.7 1.8h-1.4z" fill="white"/>
-                        <path d="M35 7h-2.5l-1.5 4.2-1.7-4.2h-3l2.5 6h3l2.5-6h-2.3z" fill="white"/>
-                      </svg>
-                    </div>
-                    {/* Logo Mastercard */}
-                    <div className="w-12 h-8 bg-white rounded flex items-center justify-center border border-gray-200">
-                      <svg className="w-10 h-6" viewBox="0 0 60 20" fill="none">
-                        <rect width="60" height="20" rx="2" fill="white"/>
-                        <circle cx="22" cy="10" r="6" fill="#EB001B"/>
-                        <circle cx="28" cy="10" r="6" fill="#F79E1B"/>
-                        <path d="M25 6c2 1.3 3.3 3.5 3.3 6s-1.3 4.7-3.3 6c-2-1.3-3.3-3.5-3.3-6s1.3-4.7 3.3-6z" fill="#FF5F00"/>
-                      </svg>
-                    </div>
+                    <img src="/visa-icon-lg.png" alt="Visa" className="h-6 object-contain" />
+                    <img src="/Mastercard-logo.svg.png" alt="Mastercard" className="h-6 object-contain" />
                   </div>
                   <span className="font-semibold text-lg">Payer par carte bancaire</span>
                 </button>
               </div>
 
-              {/* Formulaire de carte Stripe */}
+              {/* Formulaire Stripe simulé */}
               {paymentMethod === 'stripe' && (
                 <div className="mt-6 p-4 border-2 border-stone-200 rounded-lg">
-                  <div className="mb-4">
-                    <label className="block text-sm font-semibold mb-2" style={{ color: '#432818' }}>
-                      Numéro de carte *
-                    </label>
-                    <input
-                      type="text"
-                      name="cardNumber"
-                      value={cardInfo.cardNumber}
-                      onChange={handleCardNumberChange}
-                      placeholder="1234 5678 9012 3456"
-                      maxLength="19"
-                      className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-400"
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <label className="block text-sm font-semibold mb-2" style={{ color: '#432818' }}>
-                      Nom sur la carte *
-                    </label>
-                    <input
-                      type="text"
-                      name="cardholderName"
-                      value={cardInfo.cardholderName}
-                      onChange={(e) => handleInputChange(e, 'card')}
-                      placeholder="Jean Dupont"
-                      className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-400"
-                    />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-semibold mb-2" style={{ color: '#432818' }}>
-                        Date d'expiration *
-                      </label>
-                      <input
-                        type="text"
-                        name="expiryDate"
-                        value={cardInfo.expiryDate}
-                        onChange={handleExpiryChange}
-                        placeholder="MM/AA"
-                        maxLength="5"
-                        className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-400"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-semibold mb-2" style={{ color: '#432818' }}>
-                        CVV *
-                      </label>
-                      <input
-                        type="text"
-                        name="cvv"
-                        value={cardInfo.cvv}
-                        onChange={(e) => handleInputChange(e, 'card')}
-                        placeholder="123"
-                        maxLength="4"
-                        className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-400"
-                      />
-                    </div>
-                  </div>
-                  <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
-                    <div className="flex items-center space-x-3 mb-2">
-                      <div className="flex items-center space-x-1">
-                        {/* Logos de cartes */}
-                        <svg className="w-8 h-5" viewBox="0 0 40 12" fill="none">
-                          <rect width="40" height="12" rx="1.5" fill="#1434CB"/>
-                          <path d="M17 4h-2l-1 3h2l.3-1h1.4l.3 1h2l-1.5-3zm-1 1.5l.3-1 .3 1h-.6z" fill="white"/>
-                        </svg>
-                        <svg className="w-8 h-5" viewBox="0 0 40 12" fill="none">
-                          <rect width="40" height="12" rx="1.5" fill="#EB001B"/>
-                          <circle cx="15" cy="6" r="4" fill="#EB001B"/>
-                          <circle cx="18" cy="6" r="4" fill="#F79E1B"/>
-                          <path d="M16.5 4c1.2.8 2 2.3 2 4s-.8 3.2-2 4c-1.2-.8-2-2.3-2-4s.8-3.2 2-4z" fill="#FF5F00"/>
-                        </svg>
-                      </div>
-                      <p className="text-xs font-semibold text-blue-800">
-                        Paiement sécurisé
-                      </p>
-                    </div>
-                    <p className="text-xs text-blue-700">
-                      🔒 Vos informations de carte sont cryptées et sécurisées. Nous ne stockons jamais vos données bancaires.
-                    </p>
-                  </div>
+                  <StripePaymentForm 
+                    onPaymentSuccess={handleStripePaymentSuccess}
+                    isProcessing={isProcessing}
+                    setIsProcessing={setIsProcessing}
+                  />
                 </div>
               )}
 
@@ -399,30 +265,31 @@ const CheckoutScreen = () => {
                 </div>
               </div>
 
-              <button
-                onClick={handlePayment}
-                disabled={!paymentMethod || isProcessing}
-                className={`w-full py-4 rounded-lg text-white font-semibold text-lg mt-6 transition-opacity ${
-                  !paymentMethod || isProcessing
-                    ? 'opacity-50 cursor-not-allowed'
-                    : 'hover:opacity-90'
-                }`}
-                style={{ backgroundColor: '#6F1D1B' }}
-              >
-                {isProcessing ? (
-                  <span className="flex items-center justify-center">
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Traitement en cours...
-                  </span>
-                ) : (
-                  paymentMethod === 'apple' ? 'Payer avec Apple Pay' :
-                  paymentMethod === 'stripe' ? 'Payer par carte bancaire' :
-                  'Sélectionner une méthode de paiement'
-                )}
-              </button>
+              {paymentMethod !== 'stripe' && (
+                <button
+                  onClick={handlePayment}
+                  disabled={!paymentMethod || isProcessing}
+                  className={`w-full py-4 rounded-lg text-white font-semibold text-lg mt-6 transition-opacity ${
+                    !paymentMethod || isProcessing
+                      ? 'opacity-50 cursor-not-allowed'
+                      : 'hover:opacity-90'
+                  }`}
+                  style={{ backgroundColor: '#6F1D1B' }}
+                >
+                  {isProcessing ? (
+                    <span className="flex items-center justify-center">
+                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Traitement en cours...
+                    </span>
+                  ) : (
+                    paymentMethod === 'apple' ? 'Payer avec Apple Pay' :
+                    'Sélectionner une méthode de paiement'
+                  )}
+                </button>
+              )}
 
               <button
                 onClick={() => navigate('/panier')}
@@ -440,12 +307,26 @@ const CheckoutScreen = () => {
         </div>
       </div>
 
-      {showConfirmation && (
-        <OrderConfirmationModal
-          total={getTotalPrice()}
-          onConfirm={handleConfirmOrder}
-          onClose={handleConfirmOrder}
-        />
+      {/* Overlay de chargement pendant le traitement */}
+      {isProcessing && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-xl p-8 max-w-md w-full mx-4">
+            <div className="text-center">
+              <div className="w-16 h-16 mx-auto mb-4">
+                <svg className="animate-spin h-16 w-16 text-stone-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold mb-2" style={{ color: '#432818' }}>
+                Traitement du paiement...
+              </h3>
+              <p className="text-stone-600">
+                Veuillez patienter pendant que nous traitons votre paiement.
+              </p>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

@@ -14,7 +14,7 @@ const ProductDetailScreen = () => {
 
   if (!product) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#FAFAFA]">
+      <div className="min-h-screen flex items-center justify-center bg-[#FFE6A7]/10">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4" style={{ color: '#432818' }}>Produit non trouvé</h1>
           <button
@@ -83,7 +83,7 @@ const ProductDetailScreen = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] py-12">
+    <div className="min-h-screen bg-[#FFE6A7]/10 py-12">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <button
           onClick={() => navigate(-1)}

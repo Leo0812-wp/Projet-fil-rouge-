@@ -1,3 +1,68 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Empêcher le zoom et le décalage de page */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Permettre la sélection de texte dans les inputs, textareas et éléments éditables */
+input,
+textarea,
+[contenteditable],
+p,
+span,
+div:not([class*="no-select"]) {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+html {
+  overflow-x: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  width: 100%;
+  min-height: 100vh;
+  overscroll-behavior-x: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Empêcher le zoom avec les gestes tactiles */
+@media (touch-enabled), (-moz-touch-enabled), (-webkit-touch-enabled) {
+  * {
+    touch-action: pan-y;
+  }
+  
+  input,
+  textarea,
+  select {
+    touch-action: manipulation;
+  }
+}
+
+/* Empêcher le scroll horizontal */
+* {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}

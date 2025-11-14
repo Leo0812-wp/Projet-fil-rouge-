@@ -12,6 +12,7 @@ import Orderscreen from './Pages/Orderscreen';
 import BookingScreen from './Pages/BookingScreen';
 import CartScreen from './Pages/CartScreen';
 import CheckoutScreen from './Pages/CheckoutScreen';
+import OrderConfirmationScreen from './Pages/OrderConfirmationScreen';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
               <Route path="/reservation" element={<BookingScreen />} />
               <Route path="/panier" element={<CartScreen />} />
               <Route path="/checkout" element={<CheckoutScreen />} />
+              <Route path="/confirmation" element={<OrderConfirmationScreen />} />
             </Routes>
           </main>
           <Footer />

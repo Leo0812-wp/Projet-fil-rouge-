@@ -51,7 +51,7 @@ const ProductScreen = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] py-12">
+    <div className="min-h-screen bg-[#FFE6A7]/10 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="text-4xl font-bold text-center mb-8" style={{ color: '#432818' }}>
           Nos Produits

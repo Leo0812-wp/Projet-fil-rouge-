@@ -53,7 +53,7 @@ const CartScreen = () => {
 
   if (cartItems.length === 0) {
     return (
-      <div className="min-h-screen bg-[#FAFAFA] py-12">
+      <div className="min-h-screen bg-[#FFE6A7]/10 py-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl font-bold mb-8 text-center" style={{ color: '#432818' }}>
             Votre panier
