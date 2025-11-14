@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../Context/CartContext';
 import { searchProducts } from '../data/products';
@@ -9,8 +9,46 @@ const Header = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
+  const [isScrollingUp, setIsScrollingUp] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const navigate = useNavigate();
   const { getTotalItems } = useCart();
+
+  useEffect(() => {
+    let ticking = false;
+    let lastScrollY = window.scrollY;
+
+    const updateScrollDirection = () => {
+      const currentScrollY = window.scrollY;
+      
+      // Si on est tout en haut de la page, header toujours visible
+      if (currentScrollY < 50) {
+        setIsScrollingUp(true);
+      }
+      // Si on remonte (scroll vers le haut) - avec seuil pour éviter les micro-mouvements
+      else if (currentScrollY < lastScrollY - 5) {
+        setIsScrollingUp(true);
+      } 
+      // Si on descend (scroll vers le bas) - avec seuil pour éviter les micro-mouvements
+      else if (currentScrollY > lastScrollY + 5) {
+        setIsScrollingUp(false);
+      }
+      
+      lastScrollY = currentScrollY;
+      setLastScrollY(currentScrollY);
+      ticking = false;
+    };
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateScrollDirection);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleSearchChange = (e) => {
     const query = e.target.value;
@@ -41,7 +79,14 @@ const Header = () => {
   ];
 
   return (
-    <header className="bg-stone-50 border-b border-stone-200 sticky top-0 z-50 relative">
+    <header 
+      className="bg-stone-50 border-b border-stone-200 z-50 fixed top-0 left-0 w-full"
+      style={{
+        transform: isScrollingUp ? 'translateY(0)' : 'translateY(-100%)',
+        transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+        willChange: 'transform',
+      }}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Desktop Header */}
         <div className="hidden md:flex items-center justify-between h-20">
