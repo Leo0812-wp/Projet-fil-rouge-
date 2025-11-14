@@ -11,6 +11,7 @@ import HistoryScreen from './Pages/HistoryScreen';
 import Orderscreen from './Pages/Orderscreen';
 import BookingScreen from './Pages/BookingScreen';
 import CartScreen from './Pages/CartScreen';
+import CheckoutScreen from './Pages/CheckoutScreen';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
               <Route path="/commande" element={<Orderscreen />} />
               <Route path="/reservation" element={<BookingScreen />} />
               <Route path="/panier" element={<CartScreen />} />
+              <Route path="/checkout" element={<CheckoutScreen />} />
             </Routes>
           </main>
           <Footer />

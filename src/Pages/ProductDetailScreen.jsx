@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getProductById } from '../data/products';
+import { getProductById, products } from '../data/products';
 import { useCart } from '../Context/CartContext';
+import AddToCartModal from '../Components/AddToCartModal';
 
 const ProductDetailScreen = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
+  const [showAddToCartModal, setShowAddToCartModal] = useState(false);
+  const [lastAddedProduct, setLastAddedProduct] = useState(null);
   const product = getProductById(id);
 
   if (!product) {
@@ -28,7 +31,55 @@ const ProductDetailScreen = () => {
 
   const handleAddToCart = () => {
     addToCart(product);
+    setLastAddedProduct(product);
+    setShowAddToCartModal(true);
+  };
+
+  const handleOrderOnSite = () => {
+    addToCart(product);
     navigate('/panier');
+  };
+
+  const handleContinueShopping = () => {
+    setShowAddToCartModal(false);
+  };
+
+  // Trouver des produits complémentaires (upsell)
+  const getUpsellProducts = () => {
+    // Si c'est un café, suggérer des viennoiseries ou desserts
+    if (product.category === 'café') {
+      return products.filter(p => 
+        (p.category === 'viennoiseries' || p.category === 'desserts') && 
+        p.id !== product.id
+      ).slice(0, 4);
+    }
+    // Si c'est une viennoiserie, suggérer des cafés
+    if (product.category === 'viennoiseries') {
+      return products.filter(p => 
+        p.category === 'café' && 
+        p.id !== product.id
+      ).slice(0, 4);
+    }
+    // Si c'est une sucrerie ou dessert, suggérer des cafés
+    if (product.category === 'sucreries' || product.category === 'desserts') {
+      return products.filter(p => 
+        p.category === 'café' && 
+        p.id !== product.id
+      ).slice(0, 4);
+    }
+    return [];
+  };
+
+  const upsellProducts = getUpsellProducts();
+
+  const handleUpsellAddToCart = (upsellProduct) => {
+    addToCart(upsellProduct);
+    setLastAddedProduct(upsellProduct);
+    setShowAddToCartModal(true);
+  };
+
+  const handleUpsellClick = (upsellProductId) => {
+    navigate(`/produit/${upsellProductId}`);
   };
 
   return (
@@ -84,7 +135,7 @@ const ProductDetailScreen = () => {
               Ajouter au panier
             </button>
             <button
-              onClick={() => navigate('/panier')}
+              onClick={handleOrderOnSite}
               className="w-full py-4 rounded-lg font-semibold text-lg border-2 transition-colors"
               style={{ 
                 borderColor: '#6F1D1B',
@@ -96,7 +147,74 @@ const ProductDetailScreen = () => {
             </button>
           </div>
         </div>
+
+        {/* Section Upsell */}
+        {upsellProducts.length > 0 && (
+          <div className="mt-16">
+            <h2 className="text-3xl font-bold mb-8 text-center" style={{ color: '#432818' }}>
+              Ces produits iraient bien avec
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {upsellProducts.map((upsellProduct) => (
+                <div
+                  key={upsellProduct.id}
+                  className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer hover:shadow-xl transition-shadow transform hover:scale-105"
+                  onClick={() => handleUpsellClick(upsellProduct.id)}
+                >
+                  <div className="aspect-square bg-stone-200 overflow-hidden">
+                    <img
+                      src={upsellProduct.image}
+                      alt={upsellProduct.name}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.target.src = '/cafe-espresso.avif';
+                      }}
+                    />
+                  </div>
+                  <div className="p-4">
+                    <div className="mb-2">
+                      <span className="inline-block px-2 py-1 rounded text-xs font-semibold text-white capitalize"
+                        style={{ backgroundColor: '#BB9457' }}>
+                        {upsellProduct.category}
+                      </span>
+                    </div>
+                    <h3 className="text-lg font-bold mb-2" style={{ color: '#432818' }}>
+                      {upsellProduct.name}
+                    </h3>
+                    <p className="text-sm mb-3 text-stone-600 line-clamp-2">
+                      {upsellProduct.description}
+                    </p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xl font-bold" style={{ color: '#6F1D1B' }}>
+                        {upsellProduct.price.toFixed(2)} €
+                      </span>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleUpsellAddToCart(upsellProduct);
+                        }}
+                        className="px-4 py-2 rounded-lg text-white font-semibold text-sm hover:opacity-90 transition-opacity"
+                        style={{ backgroundColor: '#6F1D1B' }}
+                      >
+                        Ajouter
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
+
+      {/* Modal d'ajout au panier avec upsell */}
+      {showAddToCartModal && lastAddedProduct && (
+        <AddToCartModal
+          product={lastAddedProduct}
+          onClose={handleContinueShopping}
+          onContinue={handleContinueShopping}
+        />
+      )}
     </div>
   );
 };

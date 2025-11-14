@@ -112,12 +112,16 @@ const Header = () => {
               onMouseEnter={() => setIsMegaMenuOpen(true)}
               onMouseLeave={() => setIsMegaMenuOpen(false)}
             >
-              <button className="text-stone-800 hover:text-stone-600 transition-colors flex items-center">
+              <Link 
+                to="/produits?category=café" 
+                className="text-stone-800 hover:text-stone-600 transition-colors flex items-center"
+                onClick={() => setIsMegaMenuOpen(false)}
+              >
                 Nos cafés
                 <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
-              </button>
+              </Link>
               
               {/* Mega Menu */}
               {isMegaMenuOpen && (
@@ -138,7 +142,7 @@ const Header = () => {
                     {cafes.map((cafe) => (
                       <Link
                         key={cafe.id}
-                        to="/produits"
+                        to="/produits?category=café"
                         className="group flex flex-col items-center hover:scale-105 transition-transform"
                         onClick={() => setIsMegaMenuOpen(false)}
                       >
@@ -217,21 +221,22 @@ const Header = () => {
               <Link to="/" className="text-stone-800 hover:text-stone-600 px-4 py-2" onClick={() => setIsMenuOpen(false)}>Accueil</Link>
               <Link to="/histoire" className="text-stone-800 hover:text-stone-600 px-4 py-2" onClick={() => setIsMenuOpen(false)}>Histoire</Link>
               <div>
-                <button
-                  onClick={() => setIsMegaMenuOpen(!isMegaMenuOpen)}
+                <Link
+                  to="/produits?category=café"
                   className="w-full text-left text-stone-800 hover:text-stone-600 px-4 py-2 flex items-center justify-between"
+                  onClick={() => setIsMenuOpen(false)}
                 >
                   Nos cafés
-                  <svg className={`w-4 h-4 transition-transform ${isMegaMenuOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
-                </button>
+                </Link>
                 {isMegaMenuOpen && (
                   <div className="pl-6 pr-4 py-2 space-y-3">
                     {cafes.map((cafe) => (
                       <Link
                         key={cafe.id}
-                        to="/produits"
+                        to="/produits?category=café"
                         className="flex items-center space-x-3 text-stone-700 hover:text-stone-600 py-2"
                         onClick={() => {
                           setIsMegaMenuOpen(false);
