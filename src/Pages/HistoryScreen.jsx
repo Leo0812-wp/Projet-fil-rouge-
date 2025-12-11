@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import Header from '../Components/Header';
 import Footer from '../Components/Footer';
 
 const HistoryScreen = () => {
@@ -76,33 +75,7 @@ const HistoryScreen = () => {
     activeSectionRef.current = activeSection;
   }, [activeSection]);
 
-  useEffect(() => {
-    // Bloquer complètement le scroll
-    document.documentElement.style.overflowY = 'hidden';
-    document.body.style.overflowY = 'hidden';
-    document.documentElement.style.scrollBehavior = 'smooth';
-
-    // Bloquer tous les événements de scroll
-    const blockScroll = (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      return false;
-    };
-
-    // Bloquer wheel, touch, scroll
-    window.addEventListener('wheel', blockScroll, { passive: false });
-    window.addEventListener('touchmove', blockScroll, { passive: false });
-    window.addEventListener('scroll', blockScroll, { passive: false });
-    
-    return () => {
-      window.removeEventListener('wheel', blockScroll);
-      window.removeEventListener('touchmove', blockScroll);
-      window.removeEventListener('scroll', blockScroll);
-      document.documentElement.style.overflowY = '';
-      document.body.style.overflowY = '';
-      document.documentElement.style.scrollBehavior = '';
-    };
-  }, []);
+  // Laisser le scroll natif pour que le header sticky reste visible
 
   // Fonction pour passer à la section suivante
   const goToNextSection = () => {
@@ -225,7 +198,6 @@ const HistoryScreen = () => {
 
   return (
     <>
-      <Header />
       <div 
         ref={containerRef}
         className="relative"
@@ -353,8 +325,8 @@ const HistoryScreen = () => {
                   <p className={`transition-all duration-1000 delay-500 ${
                     isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                   }`} style={{ color: '#432818' }}>{data.paragraph3}</p>
-                </div>
-              </>
+      </div>
+    </>
             );
           })()}
         </div>

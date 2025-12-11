@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -34,6 +36,7 @@ body {
   min-height: 100vh;
   overscroll-behavior-x: none;
   -webkit-overflow-scrolling: touch;
+  font-family: 'Work Sans', 'Helvetica Neue', Arial, sans-serif;
 }
 
 #root {
@@ -41,6 +44,16 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 600;
 }
 
 /* Empêcher le zoom avec les gestes tactiles */
