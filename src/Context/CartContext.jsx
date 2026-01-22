@@ -12,6 +12,7 @@ export const useCart = () => {
 
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
+  const [reservation, setReservation] = useState(null);
 
   const addToCart = (product) => {
     setCartItems((prevItems) => {
@@ -77,6 +78,14 @@ export const CartProvider = ({ children }) => {
     return cartItems.reduce((total, item) => total + item.quantity, 0);
   };
 
+  const addReservation = (reservationData) => {
+    setReservation(reservationData);
+  };
+
+  const clearReservation = () => {
+    setReservation(null);
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -89,6 +98,9 @@ export const CartProvider = ({ children }) => {
         getTotalHT,
         getTotalTVA,
         getTotalItems,
+        reservation,
+        addReservation,
+        clearReservation,
       }}
     >
       {children}

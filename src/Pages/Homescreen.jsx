@@ -9,7 +9,7 @@ const Homescreen = () => {
   const navigate = useNavigate();
   
   // Chemin de la vidéo
-  const videoPath = "/videofront.mp4";
+  const videoPath = "/public/videofront.mp4";
 
   useEffect(() => {
     let ticking = false;
@@ -69,11 +69,11 @@ const Homescreen = () => {
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-[#432818] text-white">
       {/* Section Hero avec vidéo de fond */}
       <section className="relative h-screen md:h-[90vh] overflow-hidden">
         {/* Vidéo de fond ou image de fallback */}
-        <div className="absolute inset-0 bg-stone-300">
+        <div className="absolute inset-0 bg-[#432818]">
           {/* Image de fallback affichée pendant le chargement */}
           <div 
             className={`absolute inset-0 bg-cover bg-center transition-opacity duration-500 ${videoLoaded ? 'opacity-0' : 'opacity-100'}`}
@@ -127,7 +127,7 @@ const Homescreen = () => {
               Depuis 2015, nous torréfions chaque grain avec passion pour vous offrir des moments de douceur au quotidien
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
-              <Link
+                <Link
                 to="/produits"
                 className="px-6 py-3 md:px-8 md:py-4 rounded-lg text-white font-semibold text-base md:text-lg hover:opacity-90 transition-all transform hover:scale-105 shadow-lg"
                 style={{ backgroundColor: '#6F1D1B' }}
@@ -160,14 +160,14 @@ const Homescreen = () => {
       </section>
 
       {/* Section Bienvenue */}
-      <section className="py-12 md:py-16 lg:py-20 bg-[#FFE6A7]/10">
+      <section className="py-12 md:py-16 lg:py-20 bg-gradient-to-b from-[#432818] to-[#2d190d]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 md:mb-6" style={{ color: '#432818', fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 md:mb-6 text-white" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               Bienvenue chez nous
             </h2>
             <div className="w-24 h-1 mx-auto mb-6" style={{ backgroundColor: '#BB9457' }}></div>
-            <p className="text-base sm:text-lg md:text-xl text-center max-w-4xl mx-auto leading-relaxed" style={{ color: '#432818' }}>
+            <p className="text-base sm:text-lg md:text-xl text-center max-w-4xl mx-auto leading-relaxed text-white/90" style={{}}>
               C'est ici, au cœur de Nantes, que nous avons créé un petit coin de paradis pour les amoureux du café. 
               Chaque matin, l'odeur de nos grains torréfiés fraîchement moulus accueille nos clients comme des amis. 
               Que vous veniez pour un expresso serré avant le travail ou pour savourer un cappuccino en terrasse, 
@@ -177,48 +177,48 @@ const Homescreen = () => {
 
           {/* Cards d'informations */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mt-12">
-            <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 text-center hover:shadow-xl transition-shadow transform hover:-translate-y-1 border border-[#FFE6A7]/30">
+            <div className="bg-[#5A3A2E] rounded-xl shadow-lg p-6 md:p-8 text-center hover:shadow-xl transition-shadow transform hover:-translate-y-1 border border-white/10">
               <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style={{ backgroundColor: '#BB9457' }}>
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold mb-2" style={{ color: '#432818', fontFamily: "'Cormorant Garamond', serif" }}>Nos grains, notre histoire</h3>
-              <p className="text-stone-600 leading-relaxed">Nous travaillons directement avec de petits producteurs du Brésil et d'Éthiopie. Chaque lot est goûté et sélectionné à la main par notre torréfacteur.</p>
+              <h3 className="text-xl font-bold mb-2 text-white" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Nos grains, notre histoire</h3>
+              <p className="text-white/80 leading-relaxed">Nous travaillons directement avec de petits producteurs du Brésil et d'Éthiopie. Chaque lot est goûté et sélectionné à la main par notre torréfacteur.</p>
             </div>
 
-            <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 text-center hover:shadow-xl transition-shadow transform hover:-translate-y-1 border border-[#FFE6A7]/30">
+            <div className="bg-[#5A3A2E] rounded-xl shadow-lg p-6 md:p-8 text-center hover:shadow-xl transition-shadow transform hover:-translate-y-1 border border-white/10">
               <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style={{ backgroundColor: '#BB9457' }}>
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold mb-2" style={{ color: '#432818', fontFamily: "'Cormorant Garamond', serif" }}>Du fournil à votre table</h3>
-              <p className="text-stone-600 leading-relaxed">Chaque matin à 5h, notre boulanger-pâtissier prépare croissants, pains au chocolat et autres douceurs. Rien de mieux que l'odeur du beurre qui chauffe pour commencer la journée.</p>
+              <h3 className="text-xl font-bold mb-2 text-white" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Du fournil à votre table</h3>
+              <p className="text-white/80 leading-relaxed">Chaque matin à 5h, notre boulanger-pâtissier prépare croissants, pains au chocolat et autres douceurs. Rien de mieux que l'odeur du beurre qui chauffe pour commencer la journée.</p>
             </div>
 
-            <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 text-center hover:shadow-xl transition-shadow transform hover:-translate-y-1 border border-[#FFE6A7]/30">
+            <div className="bg-[#5A3A2E] rounded-xl shadow-lg p-6 md:p-8 text-center hover:shadow-xl transition-shadow transform hover:-translate-y-1 border border-white/10">
               <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style={{ backgroundColor: '#BB9457' }}>
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold mb-2" style={{ color: '#432818', fontFamily: "'Cormorant Garamond', serif" }}>Un lieu de vie</h3>
-              <p className="text-stone-600 leading-relaxed">Ici, on vient pour le café mais on reste pour l'ambiance. Nos clients réguliers ont leurs habitudes, leurs tables préférées. C'est un peu comme une deuxième maison.</p>
+              <h3 className="text-xl font-bold mb-2 text-white" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Un lieu de vie</h3>
+              <p className="text-white/80 leading-relaxed">Ici, on vient pour le café mais on reste pour l'ambiance. Nos clients réguliers ont leurs habitudes, leurs tables préférées. C'est un peu comme une deuxième maison.</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Section Catégories */}
-      <section className="py-12 md:py-16 lg:py-20 bg-white">
+      <section className="py-12 md:py-16 lg:py-20 bg-gradient-to-b from-[#2d190d] to-[#432818]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4" style={{ color: '#432818', fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-white" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               Ce que nous vous proposons
             </h2>
             <div className="w-24 h-1 mx-auto mb-6" style={{ backgroundColor: '#BB9457' }}></div>
-            <p className="text-lg md:text-xl text-stone-600 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">
               De l'expresso du matin aux douceurs de l'après-midi, voici ce qui fait notre quotidien
             </p>
           </div>
@@ -228,7 +228,7 @@ const Homescreen = () => {
               <Link
                 key={category.id}
                 to={`/produits?category=${category.id}`}
-                className="group relative bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
+                className="group relative bg-[#5A3A2E] rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-white/10"
               >
                 <div className="aspect-square overflow-hidden">
                   <img
@@ -247,7 +247,7 @@ const Homescreen = () => {
                   <p className="text-white/80 text-xs md:text-sm">{category.count} produits</p>
                 </div>
                 <div className="absolute top-4 right-4">
-                  <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:bg-white/30 transition-colors">
+                  <div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center group-hover:bg-white/20 transition-colors border border-white/5">
                     <svg className="w-5 h-5 text-white transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
@@ -260,14 +260,14 @@ const Homescreen = () => {
       </section>
 
       {/* Section Produits vedettes */}
-      <section className="py-12 md:py-16 lg:py-20 bg-[#FFE6A7]/10">
+      <section className="py-12 md:py-16 lg:py-20 bg-gradient-to-b from-[#432818] to-[#2d190d]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4" style={{ color: '#432818', fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-white" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               Nos coups de cœur
             </h2>
             <div className="w-24 h-1 mx-auto mb-6" style={{ backgroundColor: '#BB9457' }}></div>
-            <p className="text-lg md:text-xl text-stone-600 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">
               Ceux que nos clients réclament le plus, ceux qui font notre réputation
             </p>
           </div>
@@ -275,13 +275,13 @@ const Homescreen = () => {
           {/* Produits vedettes - Cafés */}
           <div className="mb-12">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-2xl md:text-3xl font-bold" style={{ color: '#432818', fontFamily: "'Cormorant Garamond', serif" }}>
+              <h3 className="text-2xl md:text-3xl font-bold" style={{ color: '#FFFFFF', fontFamily: "'Cormorant Garamond', serif" }}>
                 Nos cafés
               </h3>
               <Link
                 to="/produits?category=café"
                 className="text-base md:text-lg font-semibold hover:underline transition-all flex items-center gap-1"
-                style={{ color: '#6F1D1B' }}
+                style={{ color: '#FFFFFF' }}
               >
                 Tout voir
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -294,9 +294,9 @@ const Homescreen = () => {
                 <div
                   key={product.id}
                   onClick={() => navigate(`/produit/${product.id}`)}
-                  className="bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-[#FFE6A7]/20"
+                  className="bg-[#5A3A2E] rounded-xl shadow-lg overflow-hidden cursor-pointer hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-white/10"
                 >
-                  <div className="aspect-square overflow-hidden bg-stone-200">
+                  <div className="aspect-square overflow-hidden bg-[#5A3A2E]">
                     <img
                       src={product.image}
                       alt={product.name}
@@ -313,14 +313,14 @@ const Homescreen = () => {
                         {product.category}
                       </span>
                     </div>
-                    <h4 className="text-xl md:text-2xl font-bold mb-2" style={{ color: '#432818', fontFamily: "'Cormorant Garamond', serif" }}>
+                    <h4 className="text-xl md:text-2xl font-bold mb-2 text-white" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                       {product.name}
                     </h4>
-                    <p className="text-stone-600 text-sm md:text-base mb-4 line-clamp-2 leading-relaxed">
+                    <p className="text-white/80 text-sm md:text-base mb-4 line-clamp-2 leading-relaxed">
                       {product.description}
                     </p>
                     <div className="flex items-center justify-between">
-                      <span className="text-2xl md:text-3xl font-bold" style={{ color: '#6F1D1B' }}>
+                      <span className="text-2xl md:text-3xl font-bold text-white">
                         {product.price.toFixed(2)} €
                       </span>
                       <button
@@ -343,13 +343,13 @@ const Homescreen = () => {
           {/* Produits vedettes - Viennoiseries */}
           <div className="mb-12">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-2xl md:text-3xl font-bold" style={{ color: '#432818', fontFamily: "'Cormorant Garamond', serif" }}>
+              <h3 className="text-2xl md:text-3xl font-bold" style={{ color: '#FFFFFF', fontFamily: "'Cormorant Garamond', serif" }}>
                 Nos viennoiseries
               </h3>
               <Link
                 to="/produits?category=viennoiseries"
                 className="text-base md:text-lg font-semibold hover:underline transition-all flex items-center gap-1"
-                style={{ color: '#6F1D1B' }}
+                style={{ color: '#FFFFFF' }}
               >
                 Tout voir
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -362,9 +362,9 @@ const Homescreen = () => {
                 <div
                   key={product.id}
                   onClick={() => navigate(`/produit/${product.id}`)}
-                  className="bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-[#FFE6A7]/20"
+                  className="bg-[#5A3A2E] rounded-xl shadow-lg overflow-hidden cursor-pointer hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-white/10"
                 >
-                  <div className="aspect-square overflow-hidden bg-stone-200">
+                  <div className="aspect-square overflow-hidden bg-[#5A3A2E]">
                     <img
                       src={product.image}
                       alt={product.name}
@@ -377,18 +377,18 @@ const Homescreen = () => {
                   <div className="p-4 md:p-6">
                     <div className="mb-2">
                       <span className="inline-block px-2 py-1 rounded text-xs font-semibold text-white"
-                        style={{ backgroundColor: '#BB9457' }}>
+                        style={{ backgroundColor: '#c5a87aff' }}>
                         {product.category}
                       </span>
                     </div>
-                    <h4 className="text-xl md:text-2xl font-bold mb-2" style={{ color: '#432818', fontFamily: "'Cormorant Garamond', serif" }}>
+                    <h4 className="text-xl md:text-2xl font-bold mb-2 text-white" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                       {product.name}
                     </h4>
-                    <p className="text-stone-600 text-sm md:text-base mb-4 line-clamp-2 leading-relaxed">
+                    <p className="text-white/80 text-sm md:text-base mb-4 line-clamp-2 leading-relaxed">
                       {product.description}
                     </p>
                     <div className="flex items-center justify-between">
-                      <span className="text-2xl md:text-3xl font-bold" style={{ color: '#6F1D1B' }}>
+                      <span className="text-2xl md:text-3xl font-bold text-white">
                         {product.price.toFixed(2)} €
                       </span>
                       <button
@@ -411,10 +411,10 @@ const Homescreen = () => {
       </section>
 
       {/* Section Informations pratiques */}
-      <section className="py-12 md:py-16 lg:py-20 bg-white">
+      <section className="py-12 md:py-16 lg:py-20 bg-gradient-to-b from-[#2d190d] to-[#432818]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4" style={{ color: '#432818', fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-white" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               On vous attend
             </h2>
             <div className="w-24 h-1 mx-auto mb-6" style={{ backgroundColor: '#BB9457' }}></div>
@@ -422,25 +422,25 @@ const Homescreen = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {/* Horaires */}
-            <div className="bg-[#FFE6A7]/10 rounded-xl p-6 md:p-8 border border-[#FFE6A7]/30">
+            <div className="bg-[#5A3A2E] rounded-xl p-6 md:p-8 border border-white/10">
               <div className="flex items-center mb-4">
                 <div className="w-12 h-12 rounded-full flex items-center justify-center mr-4" style={{ backgroundColor: '#BB9457' }}>
                   <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
-                <h3 className="text-xl md:text-2xl font-bold" style={{ color: '#432818', fontFamily: "'Cormorant Garamond', serif" }}>Nos horaires</h3>
+                <h3 className="text-xl md:text-2xl font-bold text-white" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Nos horaires</h3>
               </div>
               <div className="space-y-2">
-                <p className="text-stone-700 leading-relaxed"><strong>Lundi - Vendredi:</strong> 7h - 19h</p>
-                <p className="text-stone-700 leading-relaxed"><strong>Samedi:</strong> 8h - 20h</p>
-                <p className="text-stone-700 leading-relaxed"><strong>Dimanche:</strong> 9h - 18h</p>
-                <p className="text-sm text-stone-600 mt-3 italic">Le dimanche, c'est brunch jusqu'à 14h !</p>
+                <p className="text-white/80 leading-relaxed"><strong>Lundi - Vendredi:</strong> 7h - 19h</p>
+                <p className="text-white/80 leading-relaxed"><strong>Samedi:</strong> 8h - 20h</p>
+                <p className="text-white/80 leading-relaxed"><strong>Dimanche:</strong> 9h - 18h</p>
+                <p className="text-sm text-white/80 mt-3 italic">Le dimanche, c'est brunch jusqu'à 14h !</p>
               </div>
             </div>
 
             {/* Localisation */}
-            <div className="bg-[#FFE6A7]/10 rounded-xl p-6 md:p-8 border border-[#FFE6A7]/30">
+            <div className="bg-[#5A3A2E] rounded-xl p-6 md:p-8 border border-white/10">
               <div className="flex items-center mb-4">
                 <div className="w-12 h-12 rounded-full flex items-center justify-center mr-4" style={{ backgroundColor: '#BB9457' }}>
                   <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -448,28 +448,28 @@ const Homescreen = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                 </div>
-                <h3 className="text-xl md:text-2xl font-bold" style={{ color: '#432818', fontFamily: "'Cormorant Garamond', serif" }}>Où nous trouver</h3>
+                <h3 className="text-xl md:text-2xl font-bold text-white" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Où nous trouver</h3>
               </div>
-              <p className="text-stone-700 mb-2 leading-relaxed">2 rue des Prés</p>
-              <p className="text-stone-700 leading-relaxed">44000 Nantes</p>
-              <p className="text-sm text-stone-600 mt-3 italic">À deux pas de la place Royale, facilement accessible en tram ou en bus</p>
+              <p className="text-white/80 mb-2 leading-relaxed">2 rue des Prés</p>
+              <p className="text-white/80 leading-relaxed">44000 Nantes</p>
+              <p className="text-sm text-white/80 mt-3 italic">À deux pas de la place Royale, facilement accessible en tram ou en bus</p>
             </div>
 
             {/* Services */}
-            <div className="bg-[#FFE6A7]/10 rounded-xl p-6 md:p-8 md:col-span-2 lg:col-span-1 border border-[#FFE6A7]/30">
+            <div className="bg-[#5A3A2E] rounded-xl p-6 md:p-8 md:col-span-2 lg:col-span-1 border border-white/10">
               <div className="flex items-center mb-4">
                 <div className="w-12 h-12 rounded-full flex items-center justify-center mr-4" style={{ backgroundColor: '#BB9457' }}>
                   <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
                 </div>
-                <h3 className="text-xl md:text-2xl font-bold" style={{ color: '#432818', fontFamily: "'Cormorant Garamond', serif" }}>Pour votre confort</h3>
+                <h3 className="text-xl md:text-2xl font-bold text-white" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Pour votre confort</h3>
               </div>
               <div className="space-y-2">
-                <p className="text-stone-700 leading-relaxed">✓ Wi-Fi gratuit pour tous</p>
-                <p className="text-stone-700 leading-relaxed">✓ Prises partout pour vos ordinateurs</p>
-                <p className="text-stone-700 leading-relaxed">✓ Espace calme pour travailler</p>
-                <p className="text-stone-700 leading-relaxed">✓ À emporter ou sur place</p>
+                <p className="text-white/80 leading-relaxed">✓ Wi-Fi gratuit pour tous</p>
+                <p className="text-white/80 leading-relaxed">✓ Prises partout pour vos ordinateurs</p>
+                <p className="text-white/80 leading-relaxed">✓ Espace calme pour travailler</p>
+                <p className="text-white/80 leading-relaxed">✓ À emporter ou sur place</p>
               </div>
             </div>
           </div>
@@ -477,12 +477,12 @@ const Homescreen = () => {
       </section>
 
       {/* Section CTA finale */}
-      <section className="py-12 md:py-16 lg:py-20 bg-[#FFE6A7]/10">
+      <section className="py-12 md:py-16 lg:py-20 bg-gradient-to-b from-[#432818] to-[#2d190d]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 md:mb-6" style={{ color: '#432818', fontFamily: "'Cormorant Garamond', serif" }}>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 md:mb-6 text-white" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             On vous attend avec impatience
           </h2>
-          <p className="text-lg md:text-xl text-stone-600 mb-8 md:mb-10 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-white/80 mb-8 md:mb-10 max-w-2xl mx-auto leading-relaxed">
             Que vous préfériez passer nous voir ou commander depuis chez vous, nous sommes là pour vous faire plaisir
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -497,8 +497,8 @@ const Homescreen = () => {
               to="/reservation"
               className="px-8 py-4 rounded-lg font-semibold text-lg border-2 transition-all transform hover:scale-105 w-full sm:w-auto"
               style={{ 
-                borderColor: '#6F1D1B',
-                color: '#6F1D1B',
+                borderColor: '#BB9457',
+                color: '#BB9457',
                 backgroundColor: 'transparent'
               }}
             >

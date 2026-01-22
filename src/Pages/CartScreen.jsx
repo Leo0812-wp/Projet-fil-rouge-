@@ -4,7 +4,7 @@ import { useCart } from '../Context/CartContext';
 import { products } from '../data/products';
 
 const CartScreen = () => {
-  const { cartItems, updateQuantity, removeFromCart, getTotalPrice, getTotalHT, getTotalTVA, addToCart } = useCart();
+  const { cartItems, updateQuantity, removeFromCart, getTotalPrice, getTotalHT, getTotalTVA, addToCart, reservation } = useCart();
   const navigate = useNavigate();
 
   const handlePay = () => {
@@ -81,6 +81,33 @@ const CartScreen = () => {
         <h1 className="text-4xl font-bold mb-8 text-center" style={{ color: '#432818' }}>
           Votre panier
         </h1>
+
+        {/* Informations de réservation */}
+        {reservation && (
+          <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-lg shadow-md p-6 mb-8 border-2 border-amber-200">
+            <h2 className="text-2xl font-bold mb-4" style={{ color: '#432818' }}>
+              Détails de votre réservation
+            </h2>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <p className="text-sm text-gray-600">Table</p>
+                <p className="font-semibold" style={{ color: '#432818' }}>Table {reservation.table?.id}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-600">Nombre de personnes</p>
+                <p className="font-semibold" style={{ color: '#432818' }}>{reservation.table?.seats} personnes</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-600">Date</p>
+                <p className="font-semibold" style={{ color: '#432818' }}>{reservation.date}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-600">Heure</p>
+                <p className="font-semibold" style={{ color: '#432818' }}>{reservation.time}</p>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="space-y-4 mb-8">
           {cartItems.map((item) => (
